@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import AddNewNotes from "./components/AddNewNotes";
 import NoteList from "./components/NoteList";
+import NoteStatus from "./components/NoteStatus";
 function App() {
   const [notes, setNotes] = useState([]);
 
@@ -20,7 +21,7 @@ function App() {
     // console.log(findItem);
     // findItem.isCompleted = !findItem.isCompleted;
     // setNotes([findItem]);
-    setNotes((prevNotes) => prevNotes.map((note) => (note.id ? { ...note, isCompleted: !note.isCompleted } : note)));
+    setNotes((prevNotes) => prevNotes.map((note) => (note.id === NoteId ? { ...note, isCompleted: !note.isCompleted } : note)));
   };
   return (
     <div className="container">
@@ -28,6 +29,7 @@ function App() {
       <div className="note-app">
         <AddNewNotes onAddNotes={handleAddNotes} />
         <div className="note-container">
+          <NoteStatus notes={notes} />
           <NoteList notes={notes} onDelete={handleDelete} onCompleted={handleComplete} />
         </div>
       </div>
