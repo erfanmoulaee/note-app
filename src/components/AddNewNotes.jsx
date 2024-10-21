@@ -7,11 +7,13 @@ function AddNewNotes({ onAddNotes }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!title || !description) return null;
     const newNotes = {
       title,
       description,
       id: Date.now(),
       createdAt: new Date().toISOString(),
+      isCompleted: false,
     };
     onAddNotes(newNotes);
     setTitle("");
