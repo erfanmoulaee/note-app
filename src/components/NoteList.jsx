@@ -1,9 +1,24 @@
 import React from "react";
 
-function NoteList({ notes, onDelete, onCompleted }) {
+function NoteList({ notes, onDelete, onCompleted, sortBy }) {
+  let sortNotes = notes;
+  switch (sortBy) {
+    case "earliest": {
+      sortNotes = [...notes].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      break;
+    }
+    case "latest": {
+      sortNotes = [...notes].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      break;
+    }
+    case "completed": {
+      sortNotes = [...notes].sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted));
+      break;
+    }
+  }
   return (
     <div className="note-list">
-      {notes.map((note) => (
+      {sortNotes.map((note) => (
         <NoteItem key={note.id} note={note} onDelete={onDelete} onCompleted={onCompleted} />
       ))}
     </div>
@@ -26,7 +41,7 @@ function NoteItem({ note, onDelete, onCompleted }) {
           <p className="desc">{note.description}</p>
         </div>
         <div className="actions">
-          <button onClick={() => onDelete(note.id)}> ❌</button>
+          <button onClick={() => onDelete(note.id)}>❌</button>
           <input type="checkbox" name={note.id} id={note.id} value={note.id} onChange={onCompleted} />
         </div>
       </div>
